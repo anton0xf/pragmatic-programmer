@@ -9,11 +9,24 @@
     (.setStroke (BasicStroke. sw))
     (.drawLine x1 y1 x2 y2)))
 
+(defn scale-p [p p0 s]
+  (->> (map * p s)
+       (map + p0)))
+
+(defn scale-segments [segments w h d]
+  (let [p0 [d d]
+        s [(/ (- w (* 2 d)) w)
+           (/ (- h (* 2 d)) h)]]
+    (map (fn [[p1 p2 sw]] [(scale-p p1 p0 s)
+                           (scale-p p2 p0 s)
+                           sw])
+         segments)))
+
 (defn render [#^Graphics g w h]
   (.setColor g (Color/BLUE))
   (let [segments [[[0 0] [w h] 2]
                   [[w 0] [0 h] 3]]]
-    (doseq [[p1 p2 sw] segments]
+    (doseq [[p1 p2 sw] (scale-segments segments w h 50)]
       (draw-segment g p1 p2 sw))))
 
 (defn create-panel []
