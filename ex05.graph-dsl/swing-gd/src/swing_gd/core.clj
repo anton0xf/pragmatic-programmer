@@ -1,14 +1,15 @@
 (ns swing-gd.core
   (:gen-class)
   (:import [javax.swing JFrame JPanel JComponent]
-           [java.awt Color Graphics Graphics2D]
+           [java.awt Color Graphics Graphics2D BasicStroke]
            [java.util Timer TimerTask]))
 
 (defn render [#^Graphics g w h]
   (.setColor g (Color/BLUE))
-  (let [segments [[0 0 w h]
-                  [w 0 0 h]]]
-    (doseq [[x1 y1 x2 y2] segments]
+  (let [segments [[0 0 w h 2]
+                  [w 0 0 h 3]]]
+    (doseq [[x1 y1 x2 y2 sw] segments]
+      (.setStroke g (BasicStroke. sw))
       (.drawLine g x1 y1 x2 y2))))
 
 (defn create-panel []
