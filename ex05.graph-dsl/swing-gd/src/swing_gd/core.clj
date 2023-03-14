@@ -5,10 +5,11 @@
            [java.util Timer TimerTask]))
 
 (defn render [#^Graphics g w h]
-  (doto g
-    (.setColor (Color/GREEN))
-    (.drawLine 0 0 w h)
-    (.drawLine w 0 0 h)))
+  (.setColor g (Color/BLUE))
+  (let [segments [[0 0 w h]
+                  [w 0 0 h]]]
+    (doseq [[x1 y1 x2 y2] segments]
+      (.drawLine g x1 y1 x2 y2))))
 
 (defn create-panel []
   "Create a panel with a customised render"
