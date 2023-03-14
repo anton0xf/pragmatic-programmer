@@ -26,14 +26,15 @@
         task (repaint-task component)]
     (.schedule timer task delay delay)))
 
-(defn run []
+(defn run [autorefresh]
   (let [panel (create-panel)
-        timer (repaint-timer panel 1000)
         frame (JFrame. "graphic dsl")]
+    (if autorefresh (repaint-timer panel 1000))
     (doto frame
       (.add panel)
       (.setSize 640 400)
       (.setVisible true))))
 
 (defn -main [& args]
-  (run))
+  (run false))
+(comment (run true))
